@@ -1,0 +1,13 @@
+# Build outputs
+build/
+out/
+*.elf
+*.nacp
+*.map
+*.lst
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
