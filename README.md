@@ -1,109 +1,109 @@
-# Soundbar Mode — Tesla Overlay for Nintendo Switch
+# Soundbar Mode — Tesla Overlay для Nintendo Switch
 
-[![Platform](https://img.shields.io/badge/Platform-Nintendo%20Switch-e60012.svg)](https://www.nintendo.com/)
-[![Framework](https://img.shields.io/badge/Framework-libtesla%20%7C%20libnx-blue.svg)](https://github.com/WerWolv/libtesla)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Platform](https://img.shields.io/badge/Платформа-Nintendo%20Switch-e60012.svg)](https://www.nintendo.com/)
+[![Framework](https://img.shields.io/badge/Фреймворк-libtesla%20%7C%20libnx-blue.svg)](https://github.com/WerWolv/libtesla)
+[![License: MIT](https://img.shields.io/badge/Лицензия-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Release](https://img.shields.io/github/v/release/Exxauxted/soundbar-nx)](https://github.com/Exxauxted/soundbar-nx/releases/latest)
 
-[**Русская версия (Russian)**](README_RU.md)
+[**English Version**](README_EN.md)
 
-A Tesla / Ultrahand overlay (`.ovl`) for Horizon OS that forces audio output through the Nintendo Switch's **internal speakers while docked**, while continuing video output over HDMI. Turn your console into a compact soundbar!
-
----
-
-## Features
-
-- **Soundbar Mode Toggle**: Seamlessly route docked audio to the console's internal speakers.
-- **Volume Slider**: 20-step discrete volume control (`StepTrackBar`) for internal speakers.
-- **Instant Switching**: Zero-latency, zero-fade target switching (`fade_ns = 0`).
-- **Game Stability Protection**: Carefully engineered to avoid HDMI audio DMA stalls and audio driver deadlocks.
-- **Surround Detection**: Warns if TV audio output is set to 5.1ch Surround (which can cause buffer issues when downmixing).
-- **Persistent Routing**: Audio routing remains active even after closing the overlay until reboot or manually toggled off.
+Оверлей Tesla / Ultrahand (`.ovl`) для Horizon OS, позволяющий принудительно выводить звук через **встроенные динамики** консоли, когда она находится **в доке**, оставляя видеовыход по HDMI на телевизоре или мониторе. Превратите Switch в компактный саундбар!
 
 ---
 
-## Prerequisites
+## Возможности
 
-To use this overlay, your Nintendo Switch must have Atmosphere CFW installed with the Tesla overlay environment:
+- **Переключатель «Soundbar Mode»**: Мгновенное перенаправление звука из дока на встроенные динамики.
+- **Регулировка громкости**: Дискретный слайдер на 20 шагов (`StepTrackBar`) для управления громкостью динамиков.
+- **Мгновенное переключение**: Нулевая задержка без зависающих системных таймеров затухания (`fade_ns = 0`).
+- **Защита от зависаний в играх**: Специально спроектированная логика IPC, исключающая переполнение буферов HDMI DMA и дедлоки аудиопотоков в играх.
+- **Автоопределение 5.1ch Surround**: Предупреждает, если вывод звука ТВ настроен на объёмный звук (что может перегружать даунмиксер).
+- **Сохранение состояния**: Звук продолжает идти через динамики после закрытия меню вплоть до перезагрузки консоли или ручного выключения.
 
-| Component | Description |
+---
+
+## Требования
+
+Для работы оверлея на Nintendo Switch должна быть установлена кастомная прошивка Atmosphere и среда оверлеев Tesla:
+
+| Компонент | Описание |
 |---|---|
-| **Atmosphere CFW** | Custom firmware (1.0.0+) |
-| **[nx-ovlloader](https://github.com/WerWolv/nx-ovlloader)** | Sysmodule that hosts overlays (`sd:/atmosphere/contents/420000000007E51A/`) |
-| **[Tesla-Menu](https://github.com/WerWolv/Tesla-Menu)** or **[Ultrahand](https://github.com/ppkantorski/Ultrahand-Overlay)** | Overlay launcher menu (`sd:/switch/.overlays/ovlmenu.ovl`) |
+| **Atmosphere CFW** | Кастомная прошивка (версия 1.0.0+) |
+| **[nx-ovlloader](https://github.com/WerWolv/nx-ovlloader)** | Сис-модуль загрузки оверлеев (`sd:/atmosphere/contents/420000000007E51A/`) |
+| **[Tesla-Menu](https://github.com/WerWolv/Tesla-Menu)** или **[Ultrahand](https://github.com/ppkantorski/Ultrahand-Overlay)** | Меню оверлеев (`sd:/switch/.overlays/ovlmenu.ovl`) |
 
 ---
 
-## Installation
+## Установка
 
-1. Download `soundbar-mode.ovl` from the [Latest Releases](https://github.com/Exxauxted/soundbar-nx/releases/latest).
-2. Place `soundbar-mode.ovl` onto your Switch SD card into the overlays folder:
+1. Скачайте `soundbar-mode.ovl` со страницы [Последних релизов](https://github.com/Exxauxted/soundbar-nx/releases/latest).
+2. Скопируйте файл `soundbar-mode.ovl` на SD-карту Switch в директорию:
    ```
    sd:/switch/.overlays/soundbar-mode.ovl
    ```
-3. Insert the SD card back into your Switch and boot Atmosphere.
+3. Вставьте SD-карту в консоль и запустите Atmosphere.
 
 ---
 
-## Usage
+## Использование
 
-1. Put the console into the dock with HDMI connected to your TV / monitor.
-2. Open the Tesla Menu using the default combination:  
-   **`L` + `DPad Down` + `Right Stick Click (R3)`**
-3. Select **Soundbar Mode**.
-4. Toggle **Soundbar Mode** to **ON**.
-5. Adjust the internal speaker volume using the slider.
-6. Press **`B`** to close the overlay menu. Audio will continue playing through the internal speakers.
-
----
-
-## ⚠️ Important: Preventing Game Freezes
-
-To ensure smooth gameplay without micro-stutters or freezes while using Soundbar Mode:
-
-1. **Set TV Sound to Stereo**:  
-   Navigate to:  
-   **System Settings → TV Output → TV Sound → select «Stereo»** (do **not** select «Surround» or «Automatic»).  
-   *Why:* In docked mode, if Surround (5.1ch) is selected, games feed 6 uncompressed PCM audio channels to the system. Downmixing 6 channels to 2-channel internal speakers under heavy game load can lead to buffer underruns and game thread deadlocks.
-2. **Close the Overlay with `B`**:  
-   Always press **`B`** to fully exit the overlay back to the game instead of hiding it with the launch combo, allowing the overlay process to fully unload from RAM.
+1. Установите консоль в док с подключённым HDMI-кабелем к телевизору или монитору.
+2. Откройте меню Tesla стандартной комбинацией кнопок:  
+   **`L` + `Крестовина вниз` + `Нажатие правого стика (R3)`**
+3. Выберите пункт **Soundbar Mode**.
+4. Переведите переключатель **Soundbar Mode** в положение **ВКЛ**.
+5. Настройте комфортную громкость динамиков ползунком.
+6. Нажмите **`B`**, чтобы полностью закрыть меню оверлея. Звук продолжит идти через встроенные динамики консоли.
 
 ---
 
-## How It Works (Technical Details)
+## ⚠️ Важно: предотвращение зависаний в играх
 
-Horizon OS manages audio routing via the `audctl` (Audio Controller) service with the following target IDs:
+Чтобы игры работали плавно, без микрофризов и зависаний:
 
-| ID | Target | Hardware Sink |
+1. **Установите звук ТВ в режим «Стерео»**:  
+   Перейдите в:  
+   **Настройки системы → Вывод на ТВ → Звук ТВ → выберите «Стерео»** (не «Объёмный звук» и не «Авто»).  
+   *Почему:* Если в доке выбран объёмный звук 5.1, игры передают в систему 6 несжатых каналов PCM. Даунмиксинг 6 каналов в 2-канальные динамики под высокой нагрузкой может приводить к переполнению аудиобуферов и зависанию потока рендеринга игры.
+2. **Закрывайте оверлей кнопкой `B`**:  
+   Всегда закрывайте меню кнопкой `B`, а не скрывайте его повторным нажатием комбинации кнопок, чтобы процесс оверлея полностью выгрузился из оперативной памяти.
+
+---
+
+## Техническое описание
+
+Horizon OS управляет аудиомаршрутизацией через сервис `audctl` (Audio Controller):
+
+| ID | Target | Описание |
 |:--:|---|---|
-| `1` | `AudioTarget_Speaker` | Realtek ALC5640 / ALC5639 Codec (I2S) |
-| `2` | `AudioTarget_Headphone` | 3.5mm Headphone Jack |
-| `3` | `AudioTarget_Tv` | Tegra X1 HDMI Display Audio Packetizer |
+| `1` | `AudioTarget_Speaker` | Встроенные динамики (кодек Realtek ALC5640 / ALC5639, шина I2S) |
+| `2` | `AudioTarget_Headphone` | Разъём для наушников 3.5 мм |
+| `3` | `AudioTarget_Tv` | HDMI-аудио контроллера дисплея Tegra X1 |
 
-When docked, Horizon OS normally forces `AudioTarget_Tv` as default.
+В штатном режиме при подключении дока система принудительно назначает вывод на `AudioTarget_Tv`.
 
-### Key Implementation Principles
+### Особенности реализации
 
-- **`audctlSetDefaultTarget(AudioTarget_Speaker, 0, 0)`**: Routes the master audio stream to the internal speakers cleanly without altering lower-level sink configurations.
-- **TV is NOT Forcefully Muted**: Muting `AudioTarget_Tv` halts the HDMI audio FIFO DMA. If a running game maintains an active HDMI audio buffer queue, muting TV causes the audio renderer thread to block indefinitely waiting for buffer release (`svcWaitSynchronization`). Leaving TV unmuted while redirecting default target avoids this issue completely.
-- **No `audctlSetOutputTarget` Conflict**: Avoids low-level hardware mux overrides that bypass the OS policy engine.
+- **`audctlSetDefaultTarget(AudioTarget_Speaker, 0, 0)`**: Назначает целевой аудиовыход по умолчанию на уровне системной политики.
+- **ТВ НЕ мутится принудительно**: Принудительный вызов `SetTargetMute(Tv, true)` останавливает приём пакетов HDMI Audio DMA. Запущенные игры, ожидающие подтверждения освобождения буферов через `svcWaitSynchronization`, блокируются и зависают. Отсутствие ручного mute ТВ полностью предотвращает эту проблему.
+- **Исключён `audctlSetOutputTarget`**: Не используется низкоуровневый оверрайд, конфликтующий с диспетчером политик Horizon OS.
 
 ---
 
-## Building from Source
+## Сборка из исходников
 
-### 1. Install devkitPro & switch-dev
+### 1. Установка devkitPro и switch-dev
 
 ```bash
-# Arch Linux / pacman
+# macOS (через Homebrew)
+brew install devkitpro-pacman
 sudo dkp-pacman -S switch-dev
 
-# macOS (using Homebrew)
-brew install devkitpro-pacman
+# Arch Linux / Ubuntu (dkp-pacman)
 sudo dkp-pacman -S switch-dev
 ```
 
-### 2. Set Environment Variables
+### 2. Настройка переменных окружения
 
 ```bash
 export DEVKITPRO=/opt/devkitpro
@@ -111,41 +111,41 @@ export DEVKITA64=$DEVKITPRO/devkitA64
 export PATH=$DEVKITPRO/tools/bin:$DEVKITA64/bin:$PATH
 ```
 
-### 3. Clone Repository with Submodules
+### 3. Клонирование репозитория
 
 ```bash
 git clone --recursive https://github.com/Exxauxted/soundbar-nx.git
 cd soundbar-nx
 ```
 
-### 4. Build
+### 4. Сборка
 
 ```bash
 make
 ```
 
-The resulting overlay binary will be at: `out/soundbar-mode.ovl`.
+Готовый файл: `out/soundbar-mode.ovl`.
 
 ---
 
-## Project Structure
+## Структура проекта
 
 ```
 soundbar-nx/
 ├── include/
-│   └── audctl_ipc.hpp       # Safe C++ wrapper around libnx audctl API
+│   └── audctl_ipc.hpp       # C++ обёртка над libnx audctl API
 ├── source/
-│   └── main.cpp             # Tesla overlay GUI & lifecycle implementation
+│   └── main.cpp             # Tesla overlay GUI и логика жизненного цикла
 ├── lib/
-│   └── libtesla/            # Header-only Tesla overlay framework (submodule)
-├── Makefile                 # Build configuration compatible with switch_rules
-├── LICENSE                  # MIT License
-├── README.md                # English Documentation
-└── README_RU.md             # Russian Documentation
+│   └── libtesla/            # Фреймворк оверлеев (submodule)
+├── Makefile                 # Сборка на switch_rules
+├── LICENSE                  # Лицензия MIT
+├── README.md                # Английская документация
+└── README_EN.md             # Русская документация
 ```
 
 ---
 
-## License
+## Лицензия
 
-This project is licensed under the [MIT License](LICENSE).
+Проект распространяется под лицензией [MIT](LICENSE).
