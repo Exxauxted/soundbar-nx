@@ -48,8 +48,9 @@ To use this overlay, your Nintendo Switch must have Atmosphere CFW installed wit
 ## Usage
 
 1. Put the console into the dock with HDMI connected to your TV / monitor.
-2. Open the Tesla Menu using the default combination:  
-   **`L` + `DPad Down` + `Right Stick Click (R3)`**
+2. Open the overlay menu using the default combination:  
+   - **Ultrahand Overlay:** **`L` + `R` + `DPad Up`**
+   - **Tesla-Menu:** **`L` + `DPad Down` + `Right Stick Click (R3)`**
 3. Select **Soundbar Mode**.
 4. Toggle **Soundbar Mode** to **ON**.
 5. Adjust the internal speaker volume using the slider.
